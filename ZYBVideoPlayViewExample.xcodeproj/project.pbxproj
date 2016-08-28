@@ -348,6 +348,7 @@
 				CB519DE11D24F2EF00AF1900 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

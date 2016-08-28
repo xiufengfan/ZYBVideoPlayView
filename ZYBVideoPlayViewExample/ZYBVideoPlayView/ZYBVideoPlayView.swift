@@ -207,7 +207,10 @@ class ZYBVideoPlayView: UIView {
         }
     }
     func videoLoadCompleted(){
-        let totalTime = Int(self.playItem!.duration.value)/Int(self.playItem!.duration.timescale)
+        var totalTime = 0
+        if self.playItem!.duration.timescale != 0 {
+            totalTime = Int(self.playItem!.duration.value)/Int(self.playItem!.duration.timescale)
+        }
         self.controlView.totalTimeLabel.text = self.formatTime(totalTime)
         self.controlView.progressSlider.maximumValue =  Float(totalTime)
         self.loadCompletedBlock?()

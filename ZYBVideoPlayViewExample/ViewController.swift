@@ -27,15 +27,15 @@ class ViewController: UIViewController {
     }
 
     @IBAction func playRemoteVideo(sender: AnyObject) {
-        let src = "http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8"
+        let src = "http://vevoplaylist-live.hls.adaptive.level3.net/vevo/ch1/appleman.m3u8"
         playView.contentURL = NSURL.init(string: src)
-        playView.videoName = "Use ZYBVideoPlayView playing Remote video"
+        playView.videoName = "playing Remote video(LIVE)"
     }
     
     @IBAction func playLocalVideo(sender: AnyObject) {
         let path = NSBundle.mainBundle().pathForResource("test", ofType: "mp4")
         playView.contentURL = NSURL.init(fileURLWithPath: path!)
-        playView.videoName = "Use ZYBVideoPlayView playing local video"
+        playView.videoName = "playing local video"
     }
     
     override func didReceiveMemoryWarning() {

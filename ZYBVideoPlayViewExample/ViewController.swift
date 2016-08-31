@@ -18,24 +18,25 @@ class ViewController: UIViewController {
         
         self.view.addSubview(playView)
 
-        
-        
-
-
-        
-        
     }
 
-    @IBAction func playRemoteVideo(sender: AnyObject) {
+    //play live video is the same as play video link
+    @IBAction func playLiveVideo(sender: AnyObject) {
         let src = "http://vevoplaylist-live.hls.adaptive.level3.net/vevo/ch1/appleman.m3u8"
         playView.contentURL = NSURL.init(string: src)
-        playView.videoName = "playing Remote video(LIVE)"
+        playView.videoName = "playing live video"
     }
     
-    @IBAction func playLocalVideo(sender: AnyObject) {
+    @IBAction func playVideoLink(sender: AnyObject) {
+        let src = "http://devstreaming.apple.com/videos/wwdc/2016/208j30f4v1a1i9i5fg9/208/hls_vod_mvp.m3u8"
+        playView.contentURL = NSURL.init(string: src)
+        playView.videoName = "playing video link"
+    }
+    
+    @IBAction func playVideoFile(sender: AnyObject) {
         let path = NSBundle.mainBundle().pathForResource("test", ofType: "mp4")
         playView.contentURL = NSURL.init(fileURLWithPath: path!)
-        playView.videoName = "playing local video"
+        playView.videoName = "playing video file"
     }
     
     override func didReceiveMemoryWarning() {

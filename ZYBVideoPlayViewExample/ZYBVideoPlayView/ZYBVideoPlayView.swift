@@ -14,12 +14,13 @@ let ScreenHeight = UIScreen.mainScreen().bounds.height
 let ScreenWidth = UIScreen.mainScreen().bounds.width
 
 class ZYBVideoPlayView: UIView {
-    
+        /// url of video
     var contentURL : NSURL?{
         didSet{
             self.reloadContentURL()
         }
     }
+        /// title of video
     var videoName : String?{
         didSet{
             self.controlView.videoNameLabel.text = videoName

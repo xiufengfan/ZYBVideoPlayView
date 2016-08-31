@@ -24,36 +24,53 @@
                                     <constraint firstAttribute="height" constant="50" id="6TS-Sg-nZp"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="Play Local Video(播放本地视频)">
+                                <state key="normal" title="Play Video File(播放本地视频)">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="playLocalVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vIY-is-wPQ"/>
+                                    <action selector="playVideoFile:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8BA-0o-UB4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P8B-rF-If6">
-                                <rect key="frame" x="50" y="368" width="220" height="50"/>
+                                <rect key="frame" x="50" y="398" width="220" height="50"/>
                                 <color key="backgroundColor" red="0.60000002384185791" green="0.40000000596046448" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="vqJ-tO-kO1"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="Play Remote Video(播放网络视频)">
+                                <state key="normal" title="Play Video Link(播放在线视频)">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="playRemoteVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eXc-Ma-zeA"/>
+                                    <action selector="playVideoLink:" destination="BYZ-38-t0r" eventType="touchUpInside" id="81P-ld-HXE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AxS-gv-ptP">
+                                <rect key="frame" x="50" y="328" width="220" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="geF-8J-AcW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="Play Live Video(播放直播)">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playLiveVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MjZ-SJ-Qwj"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="P8B-rF-If6" firstAttribute="top" secondItem="AxS-gv-ptP" secondAttribute="bottom" constant="20" id="0LX-CV-M0A"/>
+                            <constraint firstItem="AxS-gv-ptP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="50" id="5aq-Fa-RpQ"/>
                             <constraint firstAttribute="trailing" secondItem="P8B-rF-If6" secondAttribute="trailing" constant="50" id="X6f-rj-m6h"/>
                             <constraint firstAttribute="trailing" secondItem="PHQ-vj-FyE" secondAttribute="trailing" constant="50" id="YsR-5c-hFF"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="PHQ-vj-FyE" secondAttribute="bottom" constant="50" id="b5Z-yG-f8r"/>
-                            <constraint firstItem="PHQ-vj-FyE" firstAttribute="top" secondItem="P8B-rF-If6" secondAttribute="bottom" constant="50" id="dqO-Sq-6ol"/>
+                            <constraint firstItem="PHQ-vj-FyE" firstAttribute="top" secondItem="P8B-rF-If6" secondAttribute="bottom" constant="20" id="dqO-Sq-6ol"/>
                             <constraint firstItem="PHQ-vj-FyE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="50" id="mDR-ck-C7e"/>
+                            <constraint firstAttribute="trailing" secondItem="AxS-gv-ptP" secondAttribute="trailing" constant="50" id="nVM-Sd-MXx"/>
                             <constraint firstItem="P8B-rF-If6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="50" id="tGn-9q-QGn"/>
                         </constraints>
                     </view>

@@ -105,6 +105,7 @@ class ZYBVideoPlayControlView: UIView {
         playButton.setBackgroundImage(UIImage.localImageWithName("btn_play"), forState: UIControlState.Normal)
         fullScreenButton = UIButton.init(type: UIButtonType.Custom)
         fullScreenButton.setBackgroundImage(UIImage.localImageWithName("full_screen"), forState: UIControlState.Normal)
+        fullScreenButton.frame = CGRect(x: 0,y: 0,width: kVideoControlBottomBarHeight,height: kVideoControlBottomBarHeight)
 
         progressSlider = UISlider()
         progressSlider.continuous = true
@@ -157,7 +158,7 @@ class ZYBVideoPlayControlView: UIView {
         
         self.playButton.frame = CGRectMake( self.frame.size.width/2-kVideoControlPlayBtnWidth/2, self.frame.size.height/2-kVideoControlPlayBtnWidth/2 , kVideoControlPlayBtnWidth,kVideoControlPlayBtnWidth);
         
-        self.fullScreenButton.frame = CGRectMake(CGRectGetMaxX(self.bottomBar.bounds) - CGRectGetMaxX(self.fullScreenButton.bounds), CGRectGetMaxY(self.bottomBar.bounds)/2 - CGRectGetMaxY(self.fullScreenButton.bounds)/2, kVideoControlBottomBarHeight, kVideoControlBottomBarHeight);
+        self.fullScreenButton.frame = CGRectMake(CGRectGetMaxX(self.bottomBar.bounds) - self.fullScreenButton.bounds.width, self.bottomBar.bounds.height/2 - self.fullScreenButton.bounds.height/2, kVideoControlBottomBarHeight, kVideoControlBottomBarHeight);
         
         self.progressSlider.frame = CGRectMake(kVideoControlTimeLabelWidth, CGRectGetMaxY(self.bottomBar.bounds)/2 - CGRectGetMaxY(self.progressSlider.bounds)/2, CGRectGetMaxX(self.bounds) - kVideoControlTimeLabelWidth*2  - CGRectGetMaxX(self.fullScreenButton.bounds), CGRectGetMaxY(self.progressSlider.bounds));
         

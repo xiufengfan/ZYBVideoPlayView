@@ -22,13 +22,13 @@ class ViewController: UIViewController {
 
     //play live video is the same as play video link
     @IBAction func playLiveVideo(sender: AnyObject) {
-        let src = "http://vevoplaylist-live.hls.adaptive.level3.net/vevo/ch1/appleman.m3u8"
+        let src = "http://livehls1-cnc.wasu.cn/ozzq/z.m3u8?UID=e5d8959965e50859886469f189129d1b&k=50c5cd3138e587c10965f3b66a4b2549&t=57f4529f&vid=17661&cid=9&version=MIPlayer_V1.4.2"
         playView.contentURL = NSURL.init(string: src)
         playView.videoName = "playing live video"
     }
     
     @IBAction func playVideoLink(sender: AnyObject) {
-        let src = "http://devstreaming.apple.com/videos/wwdc/2016/208j30f4v1a1i9i5fg9/208/hls_vod_mvp.m3u8"
+        let src = "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"
         playView.contentURL = NSURL.init(string: src)
         playView.videoName = "playing video link"
     }

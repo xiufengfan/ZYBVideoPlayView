@@ -26,6 +26,8 @@ class ZYBVideoPlayView: UIView {
             self.controlView.videoNameLabel.text = videoName
         }
     }
+        /// auto start play when load completed,default is true
+    var autoStart : Bool = true
     var fullScreenBlock : ZYBActionBlock?
     var exitFullScreenBlock : ZYBActionBlock?
     var loadCompletedBlock : ZYBActionBlock?
@@ -135,8 +137,6 @@ class ZYBVideoPlayView: UIView {
 
     }
     func exitFullScreenAction(){
-
-        
         UIView.animateWithDuration(KFullScreenAnimateDuration, animations: { [weak self] in
             if self != nil{
                 self?.oldSuperView?.addSubview(self!)
@@ -151,7 +151,6 @@ class ZYBVideoPlayView: UIView {
             self?.controlView.fullScreenButton.setBackgroundImage(UIImage.localImageWithName("full_screen"), forState: UIControlState.Normal)
             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
             
-
         }
     }
     
@@ -181,7 +180,9 @@ class ZYBVideoPlayView: UIView {
         
         if self.contentURL != nil {
             self.player.pause()
+            self.controlView.isPlaying = false
             self.controlView.playButton.hidden = true
+            self.controlView.cancelFadeControlBar()
             self.controlView.indicatorView.hidden = false
             self.controlView.indicatorView.startAnimating()
 
@@ -218,7 +219,11 @@ class ZYBVideoPlayView: UIView {
         self.controlView.playButton.hidden = false
         self.controlView.indicatorView.hidden = true
         self.controlView.indicatorView.stopAnimating()
-        self.play()
+        self.controlView.show()
+        if autoStart == true || self.playItem!.duration.timescale == 0{
+           self.play()
+        }
+        
     }
     func videoLoadFailed(){
         self.controlView.progressSlider.maximumValue =  0

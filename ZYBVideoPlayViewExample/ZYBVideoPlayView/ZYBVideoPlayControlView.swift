@@ -54,9 +54,11 @@ class ZYBVideoPlayControlView: UIView {
     var isShowing = true
     func hide(){
         if !isShowing {
-            return;
+            return
         }
-        
+        if self.isPlaying == false{
+            return
+        }
         UIView.animateWithDuration(kVideoControlAnimationTimeinterval, animations: { [weak self] in
             self?.topBar.alpha = 0.0
             self?.bottomBar.alpha = 0.0
@@ -85,6 +87,7 @@ class ZYBVideoPlayControlView: UIView {
         if !self.isShowing {
             return;
         }
+
         NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(ZYBVideoPlayControlView.hide), object: nil)
         self.performSelector(#selector(ZYBVideoPlayControlView.hide), withObject: nil, afterDelay: kVideoControlAutoHiddenTime)
     }

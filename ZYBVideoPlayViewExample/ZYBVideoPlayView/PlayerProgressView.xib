@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PlayerProgressView" customModule="ZYBVideoPlayViewExample" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="276" height="157"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bo4-9y-p2N">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="3yc-vT-Efd"/>
+                        <constraint firstAttribute="width" constant="100" id="KrE-cn-OT8"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QdE-Gg-Lbt">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="lF2-E6-4lT"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBj-Ex-0gD">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="Wy2-Wo-g5i"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="QdE-Gg-Lbt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="0WA-dx-AMO"/>
+                <constraint firstAttribute="trailing" secondItem="QdE-Gg-Lbt" secondAttribute="trailing" constant="10" id="A8c-UP-X2w"/>
+                <constraint firstItem="Bo4-9y-p2N" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="VgL-sq-T9V"/>
+                <constraint firstItem="OBj-Ex-0gD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="c7V-mb-95q"/>
+                <constraint firstAttribute="bottom" secondItem="OBj-Ex-0gD" secondAttribute="bottom" constant="5" id="gGK-K2-LMj"/>
+                <constraint firstItem="Bo4-9y-p2N" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="gPQ-As-s4u"/>
+                <constraint firstItem="OBj-Ex-0gD" firstAttribute="top" secondItem="QdE-Gg-Lbt" secondAttribute="bottom" id="o3D-fQ-T2D"/>
+                <constraint firstAttribute="trailing" secondItem="OBj-Ex-0gD" secondAttribute="trailing" constant="10" id="w9y-tk-dxA"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="changedTimeLabel" destination="OBj-Ex-0gD" id="JIy-X8-TX8"/>
+                <outlet property="statusImage" destination="Bo4-9y-p2N" id="W8c-me-lEM"/>
+                <outlet property="totalTimeLabel" destination="QdE-Gg-Lbt" id="C1Z-Uf-MWw"/>
+            </connections>
+            <point key="canvasLocation" x="-165" y="-192.5"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
+</document>

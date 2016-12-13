@@ -10,33 +10,34 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let playView = ZYBVideoPlayView.init(frame: CGRect(x:0 , y: 0 , width: UIScreen.mainScreen().bounds.width , height:  UIScreen.mainScreen().bounds.width*0.6))
+    let playView = VideoPlayView.init(frame: CGRect(x:0 , y: 0 , width: UIScreen.mainScreen().bounds.width , height:  UIScreen.mainScreen().bounds.width*0.6))
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
+        //playView.autoStart = false
         self.view.addSubview(playView)
 
     }
 
     //play live video is the same as play video link
     @IBAction func playLiveVideo(sender: AnyObject) {
-        let src = "http://livehls1-cnc.wasu.cn/ozzq/z.m3u8?UID=e5d8959965e50859886469f189129d1b&k=50c5cd3138e587c10965f3b66a4b2549&t=57f4529f&vid=17661&cid=9&version=MIPlayer_V1.4.2"
-        playView.contentURL = NSURL.init(string: src)
-        playView.videoName = "playing live video"
+        let src = "http://livehls2-cnc.wasu.cn/dzty/z.m3u8?UID=9bfb6a99cb2f25c73010428e8d85a723&k=850ca934c48102b124de09d62d15ddd6&t=584fb76e&vid=1509878&cid=9&version=MIPlayer_V1.4.2"
+        playView.playUrl(src, type: .Online)
+        playView.title = "playing live video"
     }
     
     @IBAction func playVideoLink(sender: AnyObject) {
-        let src = "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"
-        playView.contentURL = NSURL.init(string: src)
-        playView.videoName = "playing video link"
+        let src = "http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8"
+
+        playView.playUrl(src, type: .Online)
+        playView.title = "playing live link"
     }
     
     @IBAction func playVideoFile(sender: AnyObject) {
-        let path = NSBundle.mainBundle().pathForResource("test", ofType: "mp4")
-        playView.contentURL = NSURL.init(fileURLWithPath: path!)
-        playView.videoName = "playing video file"
+        if let path = NSBundle.mainBundle().pathForResource("test", ofType: "mp4"){
+            playView.playUrl(path, type: .Local)
+            playView.title = "playing video file"
+        }
     }
     
     override func didReceiveMemoryWarning() {

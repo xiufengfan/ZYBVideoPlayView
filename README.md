@@ -20,13 +20,14 @@ self.view.addSubview(playView)
 
 ####Play local file
 ```        
-let path = NSBundle.mainBundle().pathForResource("test", ofType: "mp4")
-playView.contentURL = NSURL.init(fileURLWithPath: path!)
-playView.videoName = "Use ZYBVideoPlayView playing local video"
+if let path = NSBundle.mainBundle().pathForResource("test", ofType: "mp4"){
+	playView.playUrl(path, type: .Local)
+	playView.title = "playing video file"
+}
 ```
 ####Play remote file
 ```
-let src = "http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8"
-playView.contentURL = NSURL.init(string: src)
-playView.videoName = "Use ZYBVideoPlayView playing Remote video"
+let src = "http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8"
+playView.playUrl(src, type: .Online)
+playView.title = "playing live link"
 ```

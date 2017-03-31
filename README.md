@@ -1,8 +1,7 @@
 ## ZYBVideoPlayView
-video player in swift3 and swift2 for iOS, based on AVPlayer, support the horizontal, vertical screen.  
-An iOS video player use AVPlayer,implement by Swift3,support adjust volume, brigtness and seek by slide.
+An iOS simple video player use AVPlayer,implement by Swift3,support adjust volume, brigtness and seek by slide.
 
-基于AVPlayer（Swift3），支持横屏竖屏切换，支持手势调节音量、屏幕亮度，快进等。
+一个iOS端简单播放器，基于AVPlayer（Swift3），支持横屏竖屏切换，支持手势调节音量、屏幕亮度，快进等。
 
 <img src="https://github.com/zhaoyabei/ZYBVideoPlayView/blob/master/img0001.png" width="400" height="300" /> 
 <img src="https://github.com/zhaoyabei/ZYBVideoPlayView/blob/master/img0002.png" width="400" height="300" /> 

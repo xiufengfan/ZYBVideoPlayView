@@ -10,11 +10,11 @@ import UIKit
 import AVFoundation
 let KPlayerStatus = "status"
 typealias ZYBActionBlock = () -> Void
-let ScreenHeight = UIScreen.mainScreen().bounds.height
-let ScreenWidth = UIScreen.mainScreen().bounds.width
+let ScreenHeight = UIScreen.main.bounds.height
+let ScreenWidth = UIScreen.main.bounds.width
 
 enum VideoSourceType {
-    case Local,Online
+    case local,online
 }
 
 
@@ -40,13 +40,13 @@ class VideoPlayView: UIView ,VideoControlProtocol{
     var isPlaying = false
     var isFullScreen = false
     
-    private let player : AVPlayer
-    private let playerLayer : AVPlayerLayer
-    private var playItem : AVPlayerItem?
-    private var oldFrame : CGRect?
-    private var oldSuperView : UIView?
+    fileprivate let player : AVPlayer
+    fileprivate let playerLayer : AVPlayerLayer
+    fileprivate var playItem : AVPlayerItem?
+    fileprivate var oldFrame : CGRect?
+    fileprivate var oldSuperView : UIView?
     
-    private let KFullScreenAnimateDuration = 0.3
+    fileprivate let KFullScreenAnimateDuration = 0.3
     override init(frame: CGRect) {
         
         controlView = VideoControlView.init(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
@@ -58,7 +58,7 @@ class VideoPlayView: UIView ,VideoControlProtocol{
         
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor.blackColor()
+        self.backgroundColor = UIColor.black
         self.layer.addSublayer(playerLayer)
         self.addSubview(controlView)
         controlView.controlledView = self
@@ -68,7 +68,7 @@ class VideoPlayView: UIView ,VideoControlProtocol{
     }
     
     func regObserver(){
-        self.player.addPeriodicTimeObserverForInterval(CMTime(value: 1,timescale: 1), queue: dispatch_get_main_queue()) {[weak self] (time) in
+        self.player.addPeriodicTimeObserver(forInterval: CMTime(value: 1,timescale: 1), queue: DispatchQueue.main) {[weak self] (time) in
             
             if time.timescale != 0{
                 self?.videoStatusDelegate?.timeUpdate(time.value/Int64(time.timescale))
@@ -82,17 +82,17 @@ class VideoPlayView: UIView ,VideoControlProtocol{
     
     //MARK: Status Change
     
-    func sliderBeginTouch(slider : UISlider){
+    func sliderBeginTouch(_ slider : UISlider){
         self.player.pause()
     }
-    func sliderTouchCancel(slider : UISlider){
+    func sliderTouchCancel(_ slider : UISlider){
         self.player.play()
     }
-    func sliderValueChanged(slider : UISlider){
+    func sliderValueChanged(_ slider : UISlider){
         if slider.maximumValue == 0 {
             return
         }
-        self.playItem?.seekToTime(CMTime(value: CMTimeValue(slider.value),timescale: 1), completionHandler: {[weak self] (res) in
+        self.playItem?.seek(to: CMTime(value: CMTimeValue(slider.value),timescale: 1), completionHandler: {[weak self] (res) in
             if res{
                 self?.play()
             }
@@ -101,7 +101,7 @@ class VideoPlayView: UIView ,VideoControlProtocol{
 
 
     
-    func changeFrame(frame:CGRect){
+    func changeFrame(_ frame:CGRect){
         self.frame = frame
         self.controlView.frame = self.bounds
         self.controlView.setNeedsLayout()
@@ -110,7 +110,7 @@ class VideoPlayView: UIView ,VideoControlProtocol{
         
     }
     
-    func playButtonAction(playBtn : UIButton){
+    func playButtonAction(_ playBtn : UIButton){
         if self.controlView.progressSlider.maximumValue == 0 {
             return
         }
@@ -123,7 +123,7 @@ class VideoPlayView: UIView ,VideoControlProtocol{
     }
     
     
-    func replaceContentURL(contentURL : NSURL?){
+    func replaceContentURL(_ contentURL : URL?){
         
         if contentURL != nil {
             self.player.pause()
@@ -131,23 +131,21 @@ class VideoPlayView: UIView ,VideoControlProtocol{
             self.videoStatusDelegate?.startLoading()
             
             self.playItem?.removeObserver(self, forKeyPath: KPlayerStatus)
-            let movieAsset = AVURLAsset.init(URL: contentURL!)
+            let movieAsset = AVURLAsset.init(url: contentURL!)
             self.playItem = AVPlayerItem.init(asset: movieAsset)
-            self.player.replaceCurrentItemWithPlayerItem(self.playItem!)
-            let options = NSKeyValueObservingOptions([.New, .Old])
+            self.player.replaceCurrentItem(with: self.playItem!)
+            let options = NSKeyValueObservingOptions([.new, .old])
             playItem?.addObserver(self, forKeyPath: KPlayerStatus, options: options, context: nil)
         }
         
     }
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        print(change)
-        print(self.playItem?.status)
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         if keyPath == KPlayerStatus {
-            if self.playItem?.status  == AVPlayerItemStatus.ReadyToPlay {
+            if self.playItem?.status  == AVPlayerItemStatus.readyToPlay {
                 self.videoLoadCompleted()
             }
-            if self.playItem?.status  == AVPlayerItemStatus.Failed {
+            if self.playItem?.status  == AVPlayerItemStatus.failed {
                 self.videoLoadFailed()
             }
         }
@@ -162,12 +160,12 @@ class VideoPlayView: UIView ,VideoControlProtocol{
     
     func videoLoadFailed(){
         self.controlView.progressSlider.maximumValue =  0
-        self.controlView.playButton.hidden = false
-        self.controlView.indicatorView.hidden = true
+        self.controlView.playButton.isHidden = false
+        self.controlView.indicatorView.isHidden = true
         self.controlView.indicatorView.stopAnimating()
         print("video load failed")
     }
-    func formatTime(time : Int) -> String{
+    func formatTime(_ time : Int) -> String{
         let minutesElapsed = Float(time)/60.0
         let secondsElapsed = fmod(Float(time), 60.0)
         
@@ -178,14 +176,14 @@ class VideoPlayView: UIView ,VideoControlProtocol{
     
     //MARK: --------------Method--------------
     
-    func playUrl(videoSource : String , type : VideoSourceType){
-        let contentUrl : NSURL?
+    func playUrl(_ videoSource : String , type : VideoSourceType){
+        let contentUrl : URL?
         
         switch type {
-        case .Local:
-            contentUrl = NSURL.fileURLWithPath(videoSource)
-        case .Online:
-            contentUrl = NSURL.init(string: videoSource)
+        case .local:
+            contentUrl = URL(fileURLWithPath: videoSource)
+        case .online:
+            contentUrl = URL.init(string: videoSource)
         }
         
         guard contentUrl != nil else {
@@ -216,45 +214,45 @@ class VideoPlayView: UIView ,VideoControlProtocol{
         self.oldSuperView = self.superview
         let fullScreenFrame = CGRect(x: 0 , y : 0, width : ScreenWidth, height: ScreenHeight)
         
-        var keyWindow = UIApplication.sharedApplication().keyWindow
+        var keyWindow = UIApplication.shared.keyWindow
         if keyWindow == nil {
-            keyWindow = UIApplication.sharedApplication().windows[0]
+            keyWindow = UIApplication.shared.windows[0]
         }
         
         
-        UIView.animateWithDuration(KFullScreenAnimateDuration, animations: { [weak self] in
+        UIView.animate(withDuration: KFullScreenAnimateDuration, animations: { [weak self] in
             if self != nil{
                 keyWindow?.addSubview(self!)
             }
             
-            self?.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+            self?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
             
             self?.changeFrame(fullScreenFrame)
             
             
-        }) {[weak self] (res) in
+        }, completion: {[weak self] (res) in
             self?.isFullScreen = true
-            self?.controlView.fullScreenButton.setBackgroundImage(UIImage.localImageWithName("exit_full_screen"), forState: UIControlState.Normal)
-            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
-        }
+            self?.controlView.fullScreenButton.setBackgroundImage(UIImage.localImageWithName("exit_full_screen"), for: UIControlState())
+            UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.none)
+        }) 
         
     }
     func exitFullScreenAction(){
-        UIView.animateWithDuration(KFullScreenAnimateDuration, animations: { [weak self] in
+        UIView.animate(withDuration: KFullScreenAnimateDuration, animations: { [weak self] in
             if self != nil{
                 self?.oldSuperView?.addSubview(self!)
-                self?.transform = CGAffineTransformMakeRotation(0.0)
+                self?.transform = CGAffineTransform(rotationAngle: 0.0)
                 
                 self?.changeFrame(self!.oldFrame!)
                 
             }
             
-        }) {[weak self] (res) in
+        }, completion: {[weak self] (res) in
             self?.isFullScreen = false
-            self?.controlView.fullScreenButton.setBackgroundImage(UIImage.localImageWithName("full_screen"), forState: UIControlState.Normal)
-            UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
+            self?.controlView.fullScreenButton.setBackgroundImage(UIImage.localImageWithName("full_screen"), for: UIControlState())
+            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.none)
             
-        }
+        }) 
     }
 
     
@@ -270,14 +268,14 @@ class VideoPlayView: UIView ,VideoControlProtocol{
         }
     }
     
-    func startDragProgressSlider(progress : UISlider){
+    func startDragProgressSlider(_ progress : UISlider){
         
     }
     
     /// 停止拖拽进度条
     ///
     /// - parameter progress: UISlider
-    func endDragProgressSlider(progress : UISlider){
+    func endDragProgressSlider(_ progress : UISlider){
         
     }
     
@@ -285,13 +283,13 @@ class VideoPlayView: UIView ,VideoControlProtocol{
     /// 进度条值变化
     ///
     /// - parameter progress: UISlider
-    func progressSliderValueChanged(progress : UISlider){
+    func progressSliderValueChanged(_ progress : UISlider){
         
     }
     
     
     /// 播放事件
-    func playAction(play:Bool){
+    func playAction(_ play:Bool){
         if play {
             self.player.play()
         }else{
@@ -302,9 +300,9 @@ class VideoPlayView: UIView ,VideoControlProtocol{
     /// 进度变化
     ///
     /// - parameter time: 目的进度
-    func seekToTime(time : Int){
+    func seekToTime(_ time : Int){
         self.player.pause()
-        self.playItem?.seekToTime(CMTime(value: CMTimeValue(time),timescale: 1), completionHandler: {[weak self] (res) in
+        self.playItem?.seek(to: CMTime(value: CMTimeValue(time),timescale: 1), completionHandler: {[weak self] (res) in
             if res{
                 self?.player.play()
                 self?.videoStatusDelegate?.endLoading()

@@ -11,27 +11,27 @@ typealias ZYBResultBlock = (AnyObject?,NSError?)->Void
 
 protocol VideoControlProtocol {
     
-    func startDragProgressSlider(progress : UISlider)
+    func startDragProgressSlider(_ progress : UISlider)
     
     /// 停止拖拽进度条
     ///
     /// - parameter progress: UISlider
-    func endDragProgressSlider(progress : UISlider)
+    func endDragProgressSlider(_ progress : UISlider)
     
     
     /// 进度条值变化
     ///
     /// - parameter progress: UISlider
-    func progressSliderValueChanged(progress : UISlider)
+    func progressSliderValueChanged(_ progress : UISlider)
     
     
     /// 播放事件
-    func playAction(play:Bool)
+    func playAction(_ play:Bool)
     
     /// 进度变化
     ///
     /// - parameter time: 目的进度
-    func seekToTime(time : Int)
+    func seekToTime(_ time : Int)
     
     /// 下一集按钮被按下
     func nextAction()
@@ -52,7 +52,7 @@ protocol VideoStatusProtocol {
     /// 播放时间更新
     ///
     /// - parameter time: 当前时间
-    func timeUpdate(time : Int64)
+    func timeUpdate(_ time : Int64)
     
     
     /// 开始缓冲

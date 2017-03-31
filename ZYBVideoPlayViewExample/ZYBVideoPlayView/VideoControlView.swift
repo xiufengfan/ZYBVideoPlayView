@@ -9,8 +9,8 @@
 import UIKit
 
 extension UIImage{
-    class func localImageWithName(name:String)->UIImage?{
-        if let path = NSBundle.mainBundle().pathForResource(name, ofType: "png"){
+    class func localImageWithName(_ name:String)->UIImage?{
+        if let path = Bundle.main.path(forResource: name, ofType: "png"){
             return UIImage.init(contentsOfFile: path)
         }
         return nil
@@ -22,16 +22,16 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     var controlledView : VideoControlProtocol?
     
     //
-    private let kVideoControlTopBarHeight : CGFloat = 44.0
-    private let kVideoControlBottomBarHeight : CGFloat = 44.0
-    private let kVideoControlPlayBtnWidth : CGFloat = 60.0
-    private let kVideoControlTimeLabelWidth : CGFloat = 50.0
-    private let kVideoControlTimeLabelFontSize : CGFloat = 10.0
-    private let kVideoControlVideoNameLabelFontSize : CGFloat = 16.0
-    private let kVideoControlAnimationTimeinterval = 0.4
-    private let kVideoControlAutoHiddenTime = 3.0
-    private let kPanDistance : CGFloat = 100.0
-    private let KPerPanMove  : Float = 1.0
+    fileprivate let kVideoControlTopBarHeight : CGFloat = 44.0
+    fileprivate let kVideoControlBottomBarHeight : CGFloat = 44.0
+    fileprivate let kVideoControlPlayBtnWidth : CGFloat = 60.0
+    fileprivate let kVideoControlTimeLabelWidth : CGFloat = 50.0
+    fileprivate let kVideoControlTimeLabelFontSize : CGFloat = 10.0
+    fileprivate let kVideoControlVideoNameLabelFontSize : CGFloat = 16.0
+    fileprivate let kVideoControlAnimationTimeinterval = 0.4
+    fileprivate let kVideoControlAutoHiddenTime = 3.0
+    fileprivate let kPanDistance : CGFloat = 100.0
+    fileprivate let KPerPanMove  : Float = 1.0
 
     let topBar : UIView
     let bottomBar : UIView
@@ -58,8 +58,8 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     
     let pan : UIPanGestureRecognizer
     
-    private var panIsVertical = true
-    private var startPanTime : Float = 0
+    fileprivate var panIsVertical = true
+    fileprivate var startPanTime : Float = 0
 
     var isPlaying = false{
         didSet{
@@ -70,7 +70,7 @@ class VideoControlView: UIView ,VideoStatusProtocol{
                 name = "btn_play"
                 
             }
-            playButton.setBackgroundImage(UIImage.localImageWithName(name), forState: UIControlState.Normal)
+            playButton.setBackgroundImage(UIImage.localImageWithName(name), for: UIControlState())
         }
     }
     var isShowing = true
@@ -95,13 +95,13 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     
     /// 没有判断条件，直接隐藏
     func hideDirect(){
-        UIView.animateWithDuration(kVideoControlAnimationTimeinterval, animations: { [weak self] in
+        UIView.animate(withDuration: kVideoControlAnimationTimeinterval, animations: { [weak self] in
             self?.topBar.alpha = 0.0
             self?.bottomBar.alpha = 0.0
             self?.playButton.alpha = 0.0
-        }) { [weak self] (res) in
+        }, completion: { [weak self] (res) in
             self?.isShowing = false
-        }
+        }) 
     }
     
     func show(){
@@ -109,25 +109,25 @@ class VideoControlView: UIView ,VideoStatusProtocol{
             return;
         }
         
-        UIView.animateWithDuration(kVideoControlAnimationTimeinterval, animations: { [weak self] in
+        UIView.animate(withDuration: kVideoControlAnimationTimeinterval, animations: { [weak self] in
             self?.topBar.alpha = 1.0
             self?.bottomBar.alpha = 1.0
             self?.playButton.alpha = 1.0
-        }) { [weak self] (res) in
+        }, completion: { [weak self] (res) in
             self?.isShowing = true
             self?.fadeControlBar()
-        }
+        }) 
     }
     func fadeControlBar(){
         if !self.isShowing {
             return;
         }
         
-        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(VideoControlView.hide), object: nil)
-        self.performSelector(#selector(VideoControlView.hide), withObject: nil, afterDelay: kVideoControlAutoHiddenTime)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(VideoControlView.hide), object: nil)
+        self.perform(#selector(VideoControlView.hide), with: nil, afterDelay: kVideoControlAutoHiddenTime)
     }
     func cancelFadeControlBar(){
-        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(VideoControlView.hide), object: nil)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(VideoControlView.hide), object: nil)
     }
     
     
@@ -142,35 +142,35 @@ class VideoControlView: UIView ,VideoStatusProtocol{
         bottomBar = UIView()
         bottomBar.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.3)
         
-        playButton = UIButton.init(type: UIButtonType.Custom)
-        playButton.setBackgroundImage(UIImage.localImageWithName("btn_play"), forState: UIControlState.Normal)
+        playButton = UIButton.init(type: UIButtonType.custom)
+        playButton.setBackgroundImage(UIImage.localImageWithName("btn_play"), for: UIControlState())
         
-        fullScreenButton = UIButton.init(type: UIButtonType.Custom)
-        fullScreenButton.setBackgroundImage(UIImage.localImageWithName("full_screen"), forState: UIControlState.Normal)
+        fullScreenButton = UIButton.init(type: UIButtonType.custom)
+        fullScreenButton.setBackgroundImage(UIImage.localImageWithName("full_screen"), for: UIControlState())
         fullScreenButton.frame = CGRect(x: 0,y: 0,width: kVideoControlBottomBarHeight,height: kVideoControlBottomBarHeight)
         
         progressSlider = UISlider()
-        progressSlider.continuous = true
+        progressSlider.isContinuous = true
         startTimeLabel = UILabel()
-        startTimeLabel.font = UIFont.systemFontOfSize(kVideoControlTimeLabelFontSize)
-        startTimeLabel.textColor = UIColor.whiteColor()
-        startTimeLabel.textAlignment = NSTextAlignment.Center
+        startTimeLabel.font = UIFont.systemFont(ofSize: kVideoControlTimeLabelFontSize)
+        startTimeLabel.textColor = UIColor.white
+        startTimeLabel.textAlignment = NSTextAlignment.center
         
         totalTimeLabel = UILabel()
-        totalTimeLabel.font = UIFont.systemFontOfSize(kVideoControlTimeLabelFontSize)
-        totalTimeLabel.textColor = UIColor.whiteColor()
-        totalTimeLabel.textAlignment = NSTextAlignment.Center
+        totalTimeLabel.font = UIFont.systemFont(ofSize: kVideoControlTimeLabelFontSize)
+        totalTimeLabel.textColor = UIColor.white
+        totalTimeLabel.textAlignment = NSTextAlignment.center
         
         videoNameLabel = UILabel()
-        videoNameLabel.font = UIFont.systemFontOfSize(kVideoControlVideoNameLabelFontSize)
-        videoNameLabel.textColor = UIColor.whiteColor()
+        videoNameLabel.font = UIFont.systemFont(ofSize: kVideoControlVideoNameLabelFontSize)
+        videoNameLabel.textColor = UIColor.white
         
-        backButton = UIButton.init(type: UIButtonType.Custom)
-        indicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+        backButton = UIButton.init(type: UIButtonType.custom)
+        indicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
         
-        progressView = NSBundle.mainBundle().loadNibNamed("PlayerProgressView", owner: nil, options: nil)![0] as! PlayerProgressView
-        progressView.frame = CGRectMake(0, 0, 140, 100)
-        progressView.hidden = true
+        progressView = Bundle.main.loadNibNamed("PlayerProgressView", owner: nil, options: nil)![0] as! PlayerProgressView
+        progressView.frame = CGRect(x: 0, y: 0, width: 140, height: 100)
+        progressView.isHidden = true
         
         
         super.init(frame: frame)
@@ -200,13 +200,13 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     }
     
     func regObserver(){
-        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderTouchUp(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderTouchUp(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
-        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderBeginTouch(_:)), forControlEvents: UIControlEvents.TouchDown)
-        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderTouchCancel(_:)), forControlEvents: UIControlEvents.TouchCancel)
-        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderValueChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
-        self.fullScreenButton.addTarget(self, action: #selector(VideoControlView.changeScreenStatus), forControlEvents: UIControlEvents.TouchUpInside)
-        self.playButton.addTarget(self, action: #selector(VideoControlView.playButtonAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderTouchUp(_:)), for: UIControlEvents.touchUpInside)
+        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderTouchUp(_:)), for: UIControlEvents.touchUpOutside)
+        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderBeginTouch(_:)), for: UIControlEvents.touchDown)
+        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderTouchCancel(_:)), for: UIControlEvents.touchCancel)
+        self.progressSlider.addTarget(self, action: #selector(VideoControlView.sliderValueChanged(_:)), for: UIControlEvents.valueChanged)
+        self.fullScreenButton.addTarget(self, action: #selector(VideoControlView.changeScreenStatus), for: UIControlEvents.touchUpInside)
+        self.playButton.addTarget(self, action: #selector(VideoControlView.playButtonAction(_:)), for: UIControlEvents.touchUpInside)
     }
     
     
@@ -217,29 +217,29 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.topBar.frame = CGRect(x : CGRectGetMinX(self.bounds), y : CGRectGetMinY(self.bounds), width:  CGRectGetMaxX(self.bounds), height : kVideoControlTopBarHeight);
-        self.videoNameLabel.frame = CGRectMake(10, 0, self.topBar.frame.size.width, self.topBar.frame.size.height);
-        self.backButton.frame = CGRectMake(0, 0, kVideoControlTopBarHeight, kVideoControlTopBarHeight);
+        self.topBar.frame = CGRect(x : self.bounds.minX, y : self.bounds.minY, width:  self.bounds.maxX, height : kVideoControlTopBarHeight);
+        self.videoNameLabel.frame = CGRect(x: 10, y: 0, width: self.topBar.frame.size.width, height: self.topBar.frame.size.height);
+        self.backButton.frame = CGRect(x: 0, y: 0, width: kVideoControlTopBarHeight, height: kVideoControlTopBarHeight);
         
-        self.bottomBar.frame = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - kVideoControlBottomBarHeight, CGRectGetMaxX(self.bounds), kVideoControlBottomBarHeight);
+        self.bottomBar.frame = CGRect(x: self.bounds.minX, y: self.bounds.maxY - kVideoControlBottomBarHeight, width: self.bounds.maxX, height: kVideoControlBottomBarHeight);
         
-        self.playButton.frame = CGRectMake( self.frame.size.width/2-kVideoControlPlayBtnWidth/2, self.frame.size.height/2-kVideoControlPlayBtnWidth/2 , kVideoControlPlayBtnWidth,kVideoControlPlayBtnWidth);
+        self.playButton.frame = CGRect( x: self.frame.size.width/2-kVideoControlPlayBtnWidth/2, y: self.frame.size.height/2-kVideoControlPlayBtnWidth/2 , width: kVideoControlPlayBtnWidth,height: kVideoControlPlayBtnWidth);
         
-        self.fullScreenButton.frame = CGRectMake(CGRectGetMaxX(self.bottomBar.bounds) - self.fullScreenButton.bounds.width, self.bottomBar.bounds.height/2 - self.fullScreenButton.bounds.height/2, kVideoControlBottomBarHeight, kVideoControlBottomBarHeight);
+        self.fullScreenButton.frame = CGRect(x: self.bottomBar.bounds.maxX - self.fullScreenButton.bounds.width, y: self.bottomBar.bounds.height/2 - self.fullScreenButton.bounds.height/2, width: kVideoControlBottomBarHeight, height: kVideoControlBottomBarHeight);
         
-        self.progressSlider.frame = CGRectMake(kVideoControlTimeLabelWidth, CGRectGetMaxY(self.bottomBar.bounds)/2 - CGRectGetMaxY(self.progressSlider.bounds)/2, CGRectGetMaxX(self.bounds) - kVideoControlTimeLabelWidth*2  - CGRectGetMaxX(self.fullScreenButton.bounds), CGRectGetMaxY(self.progressSlider.bounds));
+        self.progressSlider.frame = CGRect(x: kVideoControlTimeLabelWidth, y: self.bottomBar.bounds.maxY/2 - self.progressSlider.bounds.maxY/2, width: self.bounds.maxX - kVideoControlTimeLabelWidth*2  - self.fullScreenButton.bounds.maxX, height: self.progressSlider.bounds.maxY);
         
-        self.startTimeLabel.frame = CGRectMake(0, 0, kVideoControlTimeLabelWidth, CGRectGetHeight(self.bottomBar.frame));
+        self.startTimeLabel.frame = CGRect(x: 0, y: 0, width: kVideoControlTimeLabelWidth, height: self.bottomBar.frame.height);
         
-        self.totalTimeLabel.frame = CGRectMake(CGRectGetMinX(self.fullScreenButton.frame)-kVideoControlTimeLabelWidth, CGRectGetMinY(self.startTimeLabel.frame), kVideoControlTimeLabelWidth,  CGRectGetHeight(self.bottomBar.frame));
-        self.indicatorView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+        self.totalTimeLabel.frame = CGRect(x: self.fullScreenButton.frame.minX-kVideoControlTimeLabelWidth, y: self.startTimeLabel.frame.minY, width: kVideoControlTimeLabelWidth,  height: self.bottomBar.frame.height);
+        self.indicatorView.center = CGPoint(x: self.bounds.midX, y: self.bounds.midY);
         
-        self.progressView.frame = CGRectMake(0, 0, 140, 100)
+        self.progressView.frame = CGRect(x: 0, y: 0, width: 140, height: 100)
         self.progressView.center = self.center
 
     }
     
-    func onTap(tap : UITapGestureRecognizer){
+    func onTap(_ tap : UITapGestureRecognizer){
         if isShowing {
             self.hideDirect()
         }else{
@@ -250,33 +250,33 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     /// 滑动手势
     ///
     /// - parameter ges: UIPanGestureRecognizer
-    func panAction(ges : UIPanGestureRecognizer){
-        let ve = ges.velocityInView(self)
+    func panAction(_ ges : UIPanGestureRecognizer){
+        let ve = ges.velocity(in: self)
         
         switch ges.state {
             
-        case .Began:
+        case .began:
             panIsVertical = abs(ve.x) < abs(ve.y)
             startPanTime = self.progressSlider.value
             
-        case .Changed:
+        case .changed:
             guard abs(ve.x)>kPanDistance || abs(ve.y) > kPanDistance else {
                 return
             }
             if panIsVertical {
                 if (abs(ve.y) > kPanDistance) {
                     //左侧 亮度
-                    if ges.locationInView(self).x<200 {
+                    if ges.location(in: self).x<200 {
                         if (ve.y > kPanDistance) {
-                            UIScreen.mainScreen().brightness -= 0.01;
+                            UIScreen.main.brightness -= 0.01;
                         }
                         if (ve.y < -kPanDistance){
-                            UIScreen.mainScreen().brightness += 0.01;
+                            UIScreen.main.brightness += 0.01;
                         }
                     }
                     
                     //右侧,音量
-                    if (ges.locationInView(self).x > CGRectGetWidth(self.frame)-200) {
+                    if (ges.location(in: self).x > self.frame.width-200) {
                         if (ve.y > kPanDistance) {
                             //                NSLog(@"down");
                             //                [DeviceTool lowerVolume];
@@ -294,7 +294,7 @@ class VideoControlView: UIView ,VideoStatusProtocol{
                     //右滑
                     if ve.x > kPanDistance {
                         //                    print("--------右滑")
-                        self.progressView.hidden = false
+                        self.progressView.isHidden = false
                         self.progressSlider.value += KPerPanMove
                         sliderValueChanged(self.progressSlider)
                         self.progressView.isFastForwarding = true
@@ -305,7 +305,7 @@ class VideoControlView: UIView ,VideoStatusProtocol{
                     //左滑
                     if ve.x < -kPanDistance {
                         //                    print("--------左滑")
-                        self.progressView.hidden = false
+                        self.progressView.isHidden = false
                         self.progressSlider.value -= KPerPanMove
                         sliderValueChanged(self.progressSlider)
                         self.progressView.isFastForwarding = false
@@ -316,10 +316,10 @@ class VideoControlView: UIView ,VideoStatusProtocol{
             }
             break
             
-        case .Ended:
+        case .ended:
             self.editing = false
             if panIsVertical == false{
-                self.progressView.hidden = true
+                self.progressView.isHidden = true
                 self.startLoading()
                 self.controlledView?.seekToTime(Int(self.progressSlider.value))
             }
@@ -327,16 +327,16 @@ class VideoControlView: UIView ,VideoStatusProtocol{
             print("-------End")
             break
             
-        case .Cancelled:
+        case .cancelled:
             self.editing = false
-            self.progressView.hidden = true
+            self.progressView.isHidden = true
             print("-------Cancelled")
             
             break
             
-        case .Failed:
+        case .failed:
             self.editing = false
-            self.progressView.hidden = true
+            self.progressView.isHidden = true
             print("-------Failed")
 
             break
@@ -353,25 +353,25 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     //MARK:----Observer
     
 
-    func changeFrame(frame:CGRect){
+    func changeFrame(_ frame:CGRect){
         
     }
     
-    func playButtonAction(playBtn : UIButton){
+    func playButtonAction(_ playBtn : UIButton){
         self.isPlaying = !self.isPlaying
         self.controlledView?.playAction(self.isPlaying)
     }
 
-    func sliderTouchUp(slider : UISlider){
+    func sliderTouchUp(_ slider : UISlider){
         self.startLoading()
         self.controlledView?.seekToTime(Int(slider.value))
         editing = false
     }
     
-    func sliderBeginTouch(slider : UISlider){
+    func sliderBeginTouch(_ slider : UISlider){
         editing = true
     }
-    func sliderTouchCancel(slider : UISlider){
+    func sliderTouchCancel(_ slider : UISlider){
         editing = false
     }
 
@@ -379,7 +379,7 @@ class VideoControlView: UIView ,VideoStatusProtocol{
         self.controlledView?.changeScreenStatus()
     }
     
-    func sliderValueChanged(slider : UISlider){
+    func sliderValueChanged(_ slider : UISlider){
         self.timeUpdateDirect(Int64(slider.value))
     }
     
@@ -388,7 +388,7 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     /// 直接更新时间
     ///
     /// - parameter time: Int64
-    private func timeUpdateDirect(time: Int64) {
+    fileprivate func timeUpdateDirect(_ time: Int64) {
         
         let currentTime = time
         self.progressSlider.value = Float(currentTime)
@@ -411,7 +411,7 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     
     //MARK:--------VideoStatusProtocol---------
     
-    func timeUpdate(time: Int64) {
+    func timeUpdate(_ time: Int64) {
         guard editing == false else {
             return
         }
@@ -420,9 +420,9 @@ class VideoControlView: UIView ,VideoStatusProtocol{
     
     func startLoading() {
         self.isPlaying = false
-        self.playButton.hidden = true
+        self.playButton.isHidden = true
         self.cancelFadeControlBar()
-        self.indicatorView.hidden = false
+        self.indicatorView.isHidden = false
         self.indicatorView.startAnimating()
     }
     
@@ -432,15 +432,15 @@ class VideoControlView: UIView ,VideoStatusProtocol{
             self.progressSlider.maximumValue =  Float(totalTime)
 //            KPerPanMove = Float(totalTime)/200.0
         }
-        self.playButton.hidden = false
-        self.indicatorView.hidden = true
+        self.playButton.isHidden = false
+        self.indicatorView.isHidden = true
         self.indicatorView.stopAnimating()
         self.isPlaying = true
         self.show()
     }
     
     //MARK:-------------Util--------------
-    func formatTime(time : Int) -> String{
+    func formatTime(_ time : Int) -> String{
         let minutesElapsed = Float(time)/60.0
         let secondsElapsed = fmod(Float(time), 60.0)
         let timeElapsedString = NSString.init(format: "%02.0f:%02.0f", minutesElapsed,secondsElapsed)

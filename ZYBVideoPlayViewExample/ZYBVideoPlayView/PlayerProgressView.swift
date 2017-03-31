@@ -30,9 +30,9 @@ class PlayerProgressView: UIView {
     override func awakeFromNib() {
         self.layer.cornerRadius = 8
         self.backgroundColor = UIColor.init(white: 0.2, alpha: 0.8)
-        self.userInteractionEnabled = false
+        self.isUserInteractionEnabled = false
         
-        self.statusImage.contentMode = UIViewContentMode.ScaleAspectFit
+        self.statusImage.contentMode = UIViewContentMode.scaleAspectFit
         
     }
     
